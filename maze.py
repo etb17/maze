@@ -7,8 +7,8 @@ pygame.init()
 
 
 # Window
-WIDTH = 800
-HEIGHT = 600
+WIDTH = 1280
+HEIGHT = 950
 SIZE = (WIDTH, HEIGHT)
 TITLE = "Maze"
 screen = pygame.display.set_mode(SIZE)
@@ -28,17 +28,31 @@ GREEN = (0, 255, 0)
 
 
 # Make a player
-player =  [200, 150, 25, 25]
+player =  [50, 25, 25, 25]
 player_vx = 0
 player_vy = 0
 player_speed = 5
 
 # make walls
-wall1 =  [300, 275, 200, 25]
-wall2 =  [400, 450, 200, 25]
-wall3 =  [100, 100, 25, 200]
+wall1 =  [100, 275, 200, 25]
+wall2 =  [100, 350, 25, 200]
+wall3 =  [100, 25, 25, 200]
+wall4 =  [0, 0, 1280, 25]
+wall5 =  [0, 925, 1280, 25]
+wall6 =  [0, 0, 25, 950]
+wall7 =  [1255, 0, 25, 950]
+wall8 =  [50, 550, 300, 25]
+wall9 =  [100, 450, 200, 25]
+wall10 = [1180, 275, 200, 25]
+wall11 = [100, 350, 25, 200]
+wall12 = [100, 25, 25, 200]
+wall13 = [50, 550, 300, 25]
+wall14 = [100, 450, 200, 25]
 
-walls = [wall1, wall2, wall3]
+
+
+
+walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10]
 
 # Make coins
 coin1 = [300, 500, 25, 25]
@@ -49,6 +63,7 @@ coins = [coin1, coin2, coin3]
 
 
 # Game loop
+case = 1
 win = False
 done = False
 
@@ -61,10 +76,10 @@ while not done:
 
     pressed = pygame.key.get_pressed()
 
-    up = pressed[pygame.K_UP]
-    down = pressed[pygame.K_DOWN]
-    left = pressed[pygame.K_LEFT]
-    right = pressed[pygame.K_RIGHT]
+    up = pressed[pygame.K_w]
+    down = pressed[pygame.K_s]
+    left = pressed[pygame.K_a]
+    right = pressed[pygame.K_d]
 
     if up:
         player_vy = -player_speed
@@ -106,7 +121,21 @@ while not done:
 
 
     ''' here is where you should resolve player collisions with screen edges '''
+    top = player[1]
+    bottom = player[1] + player[3]
+    left = player[0]
+    right = player[0] + player[2]
+    if case == 1:
+        ''' if the block is moved out of the window, nudge it back on. '''
+        if top < 0:
+            player[1] = 0
+        elif bottom > HEIGHT:
+            player[1] = HEIGHT - player[3]
 
+        if left < 0:
+            player[0] = 0
+        elif right > WIDTH:
+            player[0] = WIDTH - player[2]
 
 
 
