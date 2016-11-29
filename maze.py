@@ -26,6 +26,22 @@ BLACK = (0, 0, 0)
 YELLOW = (255, 255, 0)
 GREEN = (0, 255, 0)
 
+#splashscreen
+img = pygame.image.load('splashscreen.jpg')
+
+#stages
+START = 0
+PLAYING = 1
+END = 2
+
+def setup():
+    global block_pos, block_vel, size, stage
+    
+    block_pos = [375, 275]
+    block_vel = [0, 0]
+    size = 50
+
+    stage = START
 
 # Make a player
 player =  [50, 25, 25, 25]
@@ -81,6 +97,8 @@ coins = [coin1, coin2, coin3]
 case = 1
 win = False
 done = False
+setup()
+stage = START
 
 while not done:
     # Event processing (React to key presses, mouse clicks, etc.)
@@ -88,27 +106,35 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        elif event.type == pygame.KEYDOWN:
 
-    pressed = pygame.key.get_pressed()
+            if stage == START:
+                if event.key == pygame.K_SPACE:
+                    
+                    stage = PLAYING
 
-    up = pressed[pygame.K_w]
-    down = pressed[pygame.K_s]
-    left = pressed[pygame.K_a]
-    right = pressed[pygame.K_d]
+            elif stage == PLAYING:
+                
+                pressed = pygame.key.get_pressed()
 
-    if up:
-        player_vy = -player_speed
-    elif down:
-        player_vy = player_speed
-    else:
-        player_vy = 0
-        
-    if left:
-        player_vx = -player_speed
-    elif right:
-        player_vx = player_speed
-    else:
-        player_vx = 0
+                up = pressed[pygame.K_w]
+                down = pressed[pygame.K_s]
+                left = pressed[pygame.K_a]
+                right = pressed[pygame.K_d]
+
+                if up:
+                    player_vy = -player_speed
+                elif down:
+                    player_vy = player_speed
+                else:
+                    player_vy = 0
+                    
+                if left:
+                    player_vx = -player_speed
+                elif right:
+                    player_vx = player_speed
+                else:
+                    player_vx = 0
 
         
     # Game logic (Check for collisions, update points, etc.)
@@ -177,7 +203,8 @@ while not done:
         font = pygame.font.Font(None, 48)
         text = font.render("You Win!", 1, GREEN)
         screen.blit(text, [565, 200])
-
+    if stage == START:
+        screen.blit(img, (0,0))
     
     # Update screen (Actually draw the picture in the window.)
     pygame.display.flip()
