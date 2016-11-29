@@ -41,7 +41,7 @@ wall4 =  [0, 0, 1280, 25]
 wall5 =  [0, 925, 1280, 25]
 wall6 =  [0, 0, 25, 950]
 wall7 =  [1255, 0, 25, 950]
-wall8 =  [50, 550, 300, 25]
+wall8 =  [0, 550, 440, 25]
 wall9 =  [100, 450, 200, 25]
 wall10 = [980, 275, 200, 25]
 wall11 = [1155, 350, 25, 200]
@@ -56,12 +56,18 @@ wall19 = [415, 275, 185, 25]
 wall20 = [655, 275, 200, 25]
 wall21 = [415, 275, 25, 500]
 wall22 = [575, 275, 25, 450]
-wall23 = [415, 775, 185, 25]
+wall23 = [495, 775, 800, 25]
+wall24 = [655, 775, 200, 25]
+wall25 = [655, 300, 25, 425]
+wall26 = [830, 275, 25, 500]
+wall27 = [495, 325, 25, 475]
+wall28 = [340, 775, 100, 25]
 
 
 walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9,
          wall10, wall11, wall12, wall13, wall14, wall15, wall16, wall17,
-         wall18, wall19, wall20, wall21, wall22, wall23]
+         wall18, wall19, wall20, wall21, wall22, wall23, wall24, wall25,
+         wall26, wall27, wall28]
 
 # Make coins
 coin1 = [150, 500, 25, 25]
@@ -170,7 +176,7 @@ while not done:
     if win:
         font = pygame.font.Font(None, 48)
         text = font.render("You Win!", 1, GREEN)
-        screen.blit(text, [400, 200])
+        screen.blit(text, [565, 200])
 
     
     # Update screen (Actually draw the picture in the window.)
