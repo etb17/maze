@@ -25,6 +25,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 YELLOW = (255, 255, 0)
 GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
 
 #splashscreen
 img = pygame.image.load('splashscreen.jpg')
@@ -35,16 +36,20 @@ PLAYING = 1
 END = 2
 
 def setup():
-    global block_pos, block_vel, size, stage
+    global coins, stage, player
     
-    block_pos = [375, 275]
-    block_vel = [0, 0]
-    size = 50
+    # Make coins
+    coin1 = [150, 500, 25, 25]
+    coin2 = [200, 400, 25, 25]
+    coin3 = [50, 150, 25, 25]
 
+    coins = [coin1, coin2, coin3]
+    player =  [50, 25, 25, 25]
+    
     stage = START
 
 # Make a player
-player =  [50, 25, 25, 25]
+
 player_vx = 0
 player_vy = 0
 player_speed = 5
@@ -85,12 +90,7 @@ walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9,
          wall18, wall19, wall20, wall21, wall22, wall23, wall24, wall25,
          wall26, wall27, wall28]
 
-# Make coins
-coin1 = [150, 500, 25, 25]
-coin2 = [200, 400, 25, 25]
-coin3 = [50, 150, 25, 25]
 
-coins = [coin1, coin2, coin3]
 
 
 # Game loop
@@ -99,6 +99,7 @@ win = False
 done = False
 setup()
 stage = START
+score = 0
 
 while not done:
     # Event processing (React to key presses, mouse clicks, etc.)
@@ -135,7 +136,10 @@ while not done:
                     player_vx = player_speed
                 else:
                     player_vx = 0
-
+                    
+            elif stage == END:
+                if event.key == pygame.K_SPACE:
+                    setup()
         
     # Game logic (Check for collisions, update points, etc.)
     ''' move the player in horizontal direction '''
@@ -182,11 +186,16 @@ while not done:
 
 
     ''' get the coins '''
-    coins = [c for c in coins if not intersects.rect_rect(player, c)]
+    hit_list = [c for c in coins if intersects.rect_rect(player, c)]
+    
+    for hit in hit_list:
+        coins.remove(hit)
+        score += 1
+        print("sound!")
 
     if len(coins) == 0:
         win = True
-
+        stage = END
         
     # Drawing code (Describe the picture. It isn't actually drawn yet.)
     screen.fill(BLACK)
@@ -194,18 +203,21 @@ while not done:
     pygame.draw.rect(screen, WHITE, player)
     
     for w in walls:
-        pygame.draw.rect(screen, RED, w)
+        pygame.draw.rect(screen, BLUE, w)
 
     for c in coins:
         pygame.draw.rect(screen, YELLOW, c)
         
-    if win:
-        font = pygame.font.Font(None, 48)
-        text = font.render("You Win!", 1, GREEN)
-        screen.blit(text, [565, 200])
+    #if win:
+        
     if stage == START:
         screen.blit(img, (0,0))
-    
+    if stage == END and win:
+        font = pygame.font.Font(None, 48)
+        text = font.render("You Win!", 1, WHITE)
+        screen.blit(text, [565, 200])
+        text2 = font.render("Press SPACE to Play Again!", 1, WHITE)
+        screen.blit(text2, [565, 300])
     # Update screen (Actually draw the picture in the window.)
     pygame.display.flip()
 
