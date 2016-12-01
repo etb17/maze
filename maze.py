@@ -30,13 +30,15 @@ BLUE = (0, 0, 255)
 #splashscreen
 img = pygame.image.load('splashscreen.jpg')
 
+#sound
+pygame.mixer.music.load('cowburp.wav')
 #stages
 START = 0
 PLAYING = 1
 END = 2
 
 def setup():
-    global coins, stage, player
+    global coins, stage, player, player_vx, player_vy, score
     
     # Make coins
     coin1 = [150, 500, 25, 25]
@@ -44,14 +46,17 @@ def setup():
     coin3 = [50, 150, 25, 25]
 
     coins = [coin1, coin2, coin3]
+    
     player =  [50, 25, 25, 25]
+    player_vx = 0
+    player_vy = 0
     
     stage = START
 
+    score = 0
 # Make a player
 
-player_vx = 0
-player_vy = 0
+
 player_speed = 5
 
 # make walls
@@ -92,7 +97,6 @@ walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9,
 
 
 
-
 # Game loop
 case = 1
 win = False
@@ -100,6 +104,7 @@ done = False
 setup()
 stage = START
 score = 0
+
 
 while not done:
     # Event processing (React to key presses, mouse clicks, etc.)
@@ -111,35 +116,36 @@ while not done:
 
             if stage == START:
                 if event.key == pygame.K_SPACE:
-                    
                     stage = PLAYING
-
-            elif stage == PLAYING:
-                
-                pressed = pygame.key.get_pressed()
-
-                up = pressed[pygame.K_w]
-                down = pressed[pygame.K_s]
-                left = pressed[pygame.K_a]
-                right = pressed[pygame.K_d]
-
-                if up:
-                    player_vy = -player_speed
-                elif down:
-                    player_vy = player_speed
-                else:
-                    player_vy = 0
-                    
-                if left:
-                    player_vx = -player_speed
-                elif right:
-                    player_vx = player_speed
-                else:
-                    player_vx = 0
                     
             elif stage == END:
                 if event.key == pygame.K_SPACE:
                     setup()
+
+                    
+    if stage == PLAYING:
+        
+        pressed = pygame.key.get_pressed()
+
+        up = pressed[pygame.K_w]
+        down = pressed[pygame.K_s]
+        left = pressed[pygame.K_a]
+        right = pressed[pygame.K_d]
+
+        if up:
+            player_vy = -player_speed
+        elif down:
+            player_vy = player_speed
+        else:
+            player_vy = 0
+            
+        if left:
+            player_vx = -player_speed
+        elif right: 
+            player_vx = player_speed
+        else:
+            player_vx = 0
+
         
     # Game logic (Check for collisions, update points, etc.)
     ''' move the player in horizontal direction '''
@@ -191,14 +197,15 @@ while not done:
     for hit in hit_list:
         coins.remove(hit)
         score += 1
-        print("sound!")
-
+        pygame.mixer.music.play(0)
+        
     if len(coins) == 0:
         win = True
         stage = END
         
     # Drawing code (Describe the picture. It isn't actually drawn yet.)
     screen.fill(BLACK)
+
 
     pygame.draw.rect(screen, WHITE, player)
     
@@ -207,7 +214,11 @@ while not done:
 
     for c in coins:
         pygame.draw.rect(screen, YELLOW, c)
-        
+    
+    font = pygame.font.Font(None, 48)
+    text = font.render(str(score), 1, WHITE) 
+    screen.blit(text, [5, 10])
+    
     #if win:
         
     if stage == START:
