@@ -41,8 +41,8 @@ def setup():
     global coins, stage, player, player_vx, player_vy, score
     
     # Make coins
-    coin1 = [150, 500, 25, 25]
-    coin2 = [200, 400, 25, 25]
+    coin1 = [50, 175, 25, 25]
+    coin2 = [50, 200, 25, 25]
     coin3 = [50, 150, 25, 25]
 
     coins = [coin1, coin2, coin3]
@@ -88,12 +88,19 @@ wall25 = [655, 300, 25, 425]
 wall26 = [830, 275, 25, 500]
 wall27 = [495, 325, 25, 475]
 wall28 = [340, 775, 100, 25]
-
+wall29 = [340, 600, 25, 175]
+wall30 = [240, 600, 100, 25]
+wall31 = [240, 600, 25, 100]
+wall32 = [240, 700, 75, 25]
+wall33 = [290, 650, 25, 50]
+wall34 = [215, 750, 150, 25]
+wall35 = [190, 650, 25, 125]
 
 walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9,
          wall10, wall11, wall12, wall13, wall14, wall15, wall16, wall17,
          wall18, wall19, wall20, wall21, wall22, wall23, wall24, wall25,
-         wall26, wall27, wall28]
+         wall26, wall27, wall28, wall29, wall30, wall31, wall32, wall33,
+         wall34, wall35]
 
 
 
