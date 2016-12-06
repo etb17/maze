@@ -51,7 +51,7 @@ def setup():
     player_vx = 0
     player_vy = 0
 
-    enemy = [50, 25, 25, 25]
+    enemy = [1205, 25, 25, 25]
     enemy_vx = 0
     enemy_vy= 0
     
@@ -60,7 +60,7 @@ def setup():
     score = 0
 # Make a player
 
-enemy_speed = 5
+enemy_speed = 4
 player_speed = 5
 
 # make walls
@@ -111,19 +111,23 @@ wall43 = [25, 725, 25, 25]
 wall44 = [25, 675, 65, 25]
 wall45 = [50, 625, 65, 25]
 wall46 = [50, 600, 25, 25]
+wall47 = [200, 875, 200, 25]
+
+
 
 walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9,
          wall10, wall11, wall12, wall13, wall14, wall15, wall16, wall17,
          wall18, wall19, wall20, wall21, wall22, wall23, wall24, wall25,
          wall26, wall27, wall28, wall29, wall30, wall31, wall32, wall33,
          wall34, wall35, wall36, wall37, wall38, wall39, wall40, wall41,
-         wall42, wall43, wall44, wall45, wall46]
+         wall42, wall43, wall44, wall45, wall46, wall47]
 
 
 
 # Game loop
 case = 1
 win = False
+lose = False
 done = False
 setup()
 stage = START
@@ -203,7 +207,12 @@ while not done:
                 player[0] = w[0] - player[2]
             elif player_vx < 0:
                 player[0] = w[0] + w[2]
-
+        if intersects.rect_rect(enemy, w):
+            if enemy_vx > 0:
+                enemy[0] = w[0] - enemy[2]
+            elif enemy_vx < 0:
+                enemy[0] = w[0] + w[2]
+                
     ''' move the player in vertical direction '''
     player[1] += player_vy
     enemy[1] += enemy_vy
@@ -215,8 +224,12 @@ while not done:
                 player[1] = w[1] - player[3]
             if player_vy < 0:
                 player[1] = w[1] + w[3]
-
-
+        if intersects.rect_rect(enemy, w):
+            if enemy_vy > 0:
+                enemy[1] = w[1] - enemy[3]
+            if enemy_vy < 0:
+                enemy[1] = w[1] + w[3]
+        
     ''' here is where you should resolve player collisions with screen edges '''
     top = player[1]
     bottom = player[1] + player[3]
@@ -248,13 +261,17 @@ while not done:
     if len(coins) == 0:
         win = True
         stage = END
-        
+
+    if intersects.rect_rect(player, enemy):
+        lose = True
+        stage = END
+        pygame.mixer.music.play(0)
     # Drawing code (Describe the picture. It isn't actually drawn yet.)
     screen.fill(BLACK)
 
 
     pygame.draw.rect(screen, WHITE, player)
-    pygame.draw.rect(screen, YELLOW, enemy)
+    pygame.draw.rect(screen, RED, enemy)
     
     for w in walls:
         pygame.draw.rect(screen, BLUE, w)
@@ -266,7 +283,7 @@ while not done:
     text = font.render(str(score), 1, WHITE) 
     screen.blit(text, [5, 10])
     
-    #if win:
+    #if END:
         
     if stage == START:
         screen.blit(img, (0,0))
@@ -276,6 +293,15 @@ while not done:
         screen.blit(text, [565, 200])
         text2 = font.render("Press SPACE to Play Again!", 1, WHITE)
         screen.blit(text2, [565, 300])
+    if stage == END:
+        player_vx = 0
+        player_vy = 0
+        enemy_vx = 0
+        enemy_vy = 0
+    if lose == True and stage == END:
+        text2 = font.render("Press SPACE to Play Again!", 1, WHITE)
+        screen.blit(text2, [565, 300])
+        
     # Update screen (Actually draw the picture in the window.)
     pygame.display.flip()
 
