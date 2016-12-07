@@ -31,7 +31,10 @@ BLUE = (0, 0, 255)
 img = pygame.image.load('splashscreen.jpg')
 
 #sound
-pygame.mixer.music.load('cowburp.wav')
+sounda = pygame.mixer.Sound('cowburp.wav')
+soundb = pygame.mixer.Sound('teleport.wav')
+soundc = pygame.mixer.Sound('deathsound.wav')
+
 #stages
 START = 0
 PLAYING = 1
@@ -60,8 +63,8 @@ def setup():
     score = 0
 # Make a player
 
-enemy_speed = 4
-player_speed = 5
+enemy_speed = 3.5
+player_speed = 5.3
 
 # make walls
 wall1 =  [100, 275, 200, 25]
@@ -112,7 +115,7 @@ wall44 = [25, 675, 65, 25]
 wall45 = [50, 625, 65, 25]
 wall46 = [50, 600, 25, 25]
 wall47 = [200, 875, 200, 25]
-
+wall48 = [375, 825, 25, 50]
 
 
 walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9,
@@ -120,9 +123,13 @@ walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9,
          wall18, wall19, wall20, wall21, wall22, wall23, wall24, wall25,
          wall26, wall27, wall28, wall29, wall30, wall31, wall32, wall33,
          wall34, wall35, wall36, wall37, wall38, wall39, wall40, wall41,
-         wall42, wall43, wall44, wall45, wall46, wall47]
+         wall42, wall43, wall44, wall45, wall46, wall47, wall48]
 
 
+'create teleporter'
+teleport1 = [265, 675, 25, 25]
+
+teleports = [teleport1]
 
 # Game loop
 case = 1
@@ -256,7 +263,7 @@ while not done:
     for hit in hit_list:
         coins.remove(hit)
         score += 1
-        pygame.mixer.music.play(0)
+        sounda.play(0)
         
     if len(coins) == 0:
         win = True
@@ -265,17 +272,25 @@ while not done:
     if intersects.rect_rect(player, enemy):
         lose = True
         stage = END
-        pygame.mixer.music.play(0)
+        soundc.play(0)
+
+    if intersects.rect_rect(player, teleport1):
+        player = [600, 800, 25, 25]
+        soundb.play(0)
     # Drawing code (Describe the picture. It isn't actually drawn yet.)
     screen.fill(BLACK)
 
+    for t in teleports:
+        pygame.draw.rect(screen, GREEN, t)
 
     pygame.draw.rect(screen, WHITE, player)
     pygame.draw.rect(screen, RED, enemy)
     
     for w in walls:
         pygame.draw.rect(screen, BLUE, w)
+        
 
+        
     for c in coins:
         pygame.draw.rect(screen, YELLOW, c)
     
