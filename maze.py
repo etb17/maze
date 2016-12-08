@@ -29,6 +29,9 @@ BLUE = (0, 0, 255)
 
 #splashscreen
 img = pygame.image.load('splashscreen.jpg')
+playerimg = pygame.image.load('player.png')
+enemyimg = pygame.image.load('enemy.png')
+coinimg = pygame.image.load('coin.png')
 
 #sound
 sounda = pygame.mixer.Sound('cowburp.wav')
@@ -283,8 +286,10 @@ while not done:
     for t in teleports:
         pygame.draw.rect(screen, GREEN, t)
 
-    pygame.draw.rect(screen, WHITE, player)
-    pygame.draw.rect(screen, RED, enemy)
+
+    screen.blit(playerimg, (player[0], player[1]))
+    
+    screen.blit(enemyimg, (enemy[0], enemy[1]))
     
     for w in walls:
         pygame.draw.rect(screen, BLUE, w)
@@ -292,8 +297,9 @@ while not done:
 
         
     for c in coins:
-        pygame.draw.rect(screen, YELLOW, c)
-    
+        #pygame.draw.rect(screen, YELLOW, c)
+        screen.blit(coinimg, (c[0], c[1]))
+        
     font = pygame.font.Font(None, 48)
     text = font.render(str(score), 1, WHITE) 
     screen.blit(text, [5, 10])
