@@ -32,6 +32,7 @@ img = pygame.image.load('splashscreen.jpg')
 playerimg = pygame.image.load('player.png')
 enemyimg = pygame.image.load('enemy.png')
 coinimg = pygame.image.load('coin.png')
+teleportimg = pygame.image.load('teleport.png')
 
 #sound
 sounda = pygame.mixer.Sound('cowburp.wav')
@@ -99,7 +100,6 @@ wall26 = [830, 275, 25, 500]
 wall27 = [495, 325, 25, 475]
 wall28 = [340, 775, 100, 25]
 wall29 = [340, 600, 25, 175]
-#teleporter somewhere around here
 wall30 = [240, 600, 100, 25]
 wall31 = [240, 600, 25, 100]
 wall32 = [240, 700, 75, 25]
@@ -117,8 +117,9 @@ wall43 = [25, 725, 25, 25]
 wall44 = [25, 675, 65, 25]
 wall45 = [50, 625, 65, 25]
 wall46 = [50, 600, 25, 25]
-wall47 = [200, 875, 200, 25]
-wall48 = [375, 825, 25, 50]
+wall47 = [200, 875, 240, 25]
+wall48 = [415, 800, 25, 75]
+wall49 = [440, 850, 750, 25]
 
 
 walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9,
@@ -126,7 +127,7 @@ walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9,
          wall18, wall19, wall20, wall21, wall22, wall23, wall24, wall25,
          wall26, wall27, wall28, wall29, wall30, wall31, wall32, wall33,
          wall34, wall35, wall36, wall37, wall38, wall39, wall40, wall41,
-         wall42, wall43, wall44, wall45, wall46, wall47, wall48]
+         wall42, wall43, wall44, wall45, wall46, wall47, wall48, wall49]
 
 
 'create teleporter'
@@ -142,7 +143,6 @@ done = False
 setup()
 stage = START
 score = 0
-
 
 while not done:
     # Event processing (React to key presses, mouse clicks, etc.)
@@ -282,10 +282,9 @@ while not done:
         soundb.play(0)
     # Drawing code (Describe the picture. It isn't actually drawn yet.)
     screen.fill(BLACK)
-
+      
     for t in teleports:
-        pygame.draw.rect(screen, GREEN, t)
-
+        screen.blit(teleportimg, (t[0], t[1]))
 
     screen.blit(playerimg, (player[0], player[1]))
     
