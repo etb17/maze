@@ -27,7 +27,7 @@ YELLOW = (255, 255, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
-#splashscreen
+#images
 img = pygame.image.load('splashscreen.jpg')
 playerimg = pygame.image.load('player.png')
 enemyimg = pygame.image.load('enemy.png')
@@ -38,6 +38,7 @@ teleportimg = pygame.image.load('teleport.png')
 sounda = pygame.mixer.Sound('cowburp.wav')
 soundb = pygame.mixer.Sound('teleport.wav')
 soundc = pygame.mixer.Sound('deathsound.wav')
+soundd = pygame.mixer.Sound('splashscreen.wav')
 
 #stages
 START = 0
@@ -120,20 +121,25 @@ wall46 = [50, 600, 25, 25]
 wall47 = [200, 875, 240, 25]
 wall48 = [415, 800, 25, 75]
 wall49 = [440, 850, 750, 25]
-
+wall50 = [500, 825, 25, 75]
 
 walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9,
          wall10, wall11, wall12, wall13, wall14, wall15, wall16, wall17,
          wall18, wall19, wall20, wall21, wall22, wall23, wall24, wall25,
          wall26, wall27, wall28, wall29, wall30, wall31, wall32, wall33,
          wall34, wall35, wall36, wall37, wall38, wall39, wall40, wall41,
-         wall42, wall43, wall44, wall45, wall46, wall47, wall48, wall49]
+         wall42, wall43, wall44, wall45, wall46, wall47, wall48, wall49,
+         wall50]
 
 
 'create teleporter'
 teleport1 = [265, 675, 25, 25]
 
 teleports = [teleport1]
+
+'speed trap'
+speedtrapslow = [500, 800, 25, 25]
+speedtrapfast = [600, 800, 25, 25]
 
 # Game loop
 case = 1
@@ -278,14 +284,27 @@ while not done:
         soundc.play(0)
 
     if intersects.rect_rect(player, teleport1):
-        player = [600, 800, 25, 25]
+        player = [475, 800, 25, 25]
+        player_speed = 5.3
+        enemy_speed = 3.5
         soundb.play(0)
+        
+    if intersects.rect_rect(player, speedtrapslow):
+        player_speed = 3.4
+        enemy_speed = 3.9
+        
+    if intersects.rect_rect(player, speedtrapfast):
+        player_speed = 5.3
+        enemy_speed = 3.5
     # Drawing code (Describe the picture. It isn't actually drawn yet.)
     screen.fill(BLACK)
       
     for t in teleports:
         screen.blit(teleportimg, (t[0], t[1]))
 
+    pygame.draw.rect(screen, RED, speedtrapslow)
+    pygame.draw.rect(screen, GREEN, speedtrapfast)
+    
     screen.blit(playerimg, (player[0], player[1]))
     
     screen.blit(enemyimg, (enemy[0], enemy[1]))
@@ -294,7 +313,7 @@ while not done:
         pygame.draw.rect(screen, BLUE, w)
         
 
-        
+    
     for c in coins:
         #pygame.draw.rect(screen, YELLOW, c)
         screen.blit(coinimg, (c[0], c[1]))
@@ -307,6 +326,7 @@ while not done:
         
     if stage == START:
         screen.blit(img, (0,0))
+        soundd.play(0)
     if stage == END and win:
         font = pygame.font.Font(None, 48)
         text = font.render("You Win!", 1, WHITE)
