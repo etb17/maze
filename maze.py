@@ -122,6 +122,27 @@ wall47 = [200, 875, 240, 25]
 wall48 = [415, 800, 25, 75]
 wall49 = [440, 850, 750, 25]
 wall50 = [500, 825, 25, 75]
+wall51 = [550, 800, 25, 25]
+wall52 = [600, 825, 25, 75]
+wall53 = [650, 800, 25, 25]
+wall54 = [700, 825, 25, 75]
+wall55 = [750, 800, 25, 25]
+wall56 = [800, 825, 25, 75]
+wall57 = [850, 800, 25, 25]
+wall58 = [900, 825, 25, 75]
+wall59 = [950, 800, 25, 25]
+wall60 = [1000, 825, 25, 75]
+wall61 = [1050, 800, 25, 25]
+wall62 = [1100, 825, 25, 75]
+wall63 = [1150, 800, 25, 25]
+wall64 = [1150, 900, 25, 25]
+wall65 = [1050, 900, 25, 25]
+wall66 = [950, 900, 25, 25]
+wall67 = [850, 900, 25, 25]
+wall68 = [750, 900, 25, 25]
+wall69 = [650, 900, 25, 25]
+wall70 = [550, 900, 25, 25]
+
 
 walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9,
          wall10, wall11, wall12, wall13, wall14, wall15, wall16, wall17,
@@ -129,7 +150,9 @@ walls = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9,
          wall26, wall27, wall28, wall29, wall30, wall31, wall32, wall33,
          wall34, wall35, wall36, wall37, wall38, wall39, wall40, wall41,
          wall42, wall43, wall44, wall45, wall46, wall47, wall48, wall49,
-         wall50]
+         wall50, wall51, wall52, wall53, wall54, wall55, wall56, wall57,
+         wall58, wall59, wall60, wall61, wall62, wall63, wall64, wall65,
+         wall66, wall67, wall68, wall69, wall70]
 
 
 'create teleporter'
@@ -139,7 +162,7 @@ teleports = [teleport1]
 
 'speed trap'
 speedtrapslow = [500, 800, 25, 25]
-speedtrapfast = [600, 800, 25, 25]
+speedtrapfast = [500, 900, 25, 25]
 
 # Game loop
 case = 1
@@ -302,12 +325,14 @@ while not done:
     for t in teleports:
         screen.blit(teleportimg, (t[0], t[1]))
 
-    pygame.draw.rect(screen, RED, speedtrapslow)
-    pygame.draw.rect(screen, GREEN, speedtrapfast)
+
     
     screen.blit(playerimg, (player[0], player[1]))
     
     screen.blit(enemyimg, (enemy[0], enemy[1]))
+
+    pygame.draw.rect(screen, RED, speedtrapslow)
+    pygame.draw.rect(screen, GREEN, speedtrapfast)
     
     for w in walls:
         pygame.draw.rect(screen, BLUE, w)
